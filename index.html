@@ -100,6 +100,15 @@
           });
         });
 
+      // ✅ Datei als Download speichern
+      const blob = new Blob([infoText], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "browser_daten_demo.txt";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+
       // 🔍 (Fake) Tastaturüberwachung (nur zu Simulationszwecken)
       window.addEventListener("keydown", e => {
         console.log(`[KEYLOGGER-DEMO] Taste gedrückt: ${e.key}`);
